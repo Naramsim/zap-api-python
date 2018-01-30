@@ -121,7 +121,7 @@ class ZAPv2(object):
            - `kwargs`: all other keyword arguments.
         """
         # Must never leak the API key via proxied requests
-        return requests.get(url, proxies=self.__proxies, verify=False, *args, **kwargs).text
+        return requests.get(url, proxies=self.__proxies, verify=False, stream=True, *args, **kwargs).text
 
     def _request_api(self, url, query=None):
         """
@@ -146,7 +146,7 @@ class ZAPv2(object):
           # Add the apikey to get params for backwards compatibility
           if not query.get('apikey'):
             query['apikey'] = self.__apikey
-        return self.session.get(url, params=query, proxies=self.__proxies, verify=False)
+        return self.session.get(url, params=query, proxies=self.__proxies, verify=False, stream=True)
 
     def _request(self, url, get=None):
         """
